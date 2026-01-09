@@ -75,6 +75,12 @@ GIPHY_SEARCH_TERMS = [
 ]
 
 
+def is_gif_enabled() -> bool:
+    """Check if GIFs are enabled via environment variable"""
+    gif_setting = os.getenv('ENABLE_GIFS', 'true').strip().lower()
+    return gif_setting in ('true', '1', 'yes', 'on')
+
+
 def get_gif_keyword() -> str:
     """Get a random GIF keyword from environment variable or default to 'brain'"""
     # Get keywords from environment variable (comma-separated)
@@ -157,16 +163,19 @@ async def click_to_go_crypto_ethan_mode(update: Update, context: ContextTypes.DE
     try:
         response = random.choice(ETHAN_MODE_RESPONSES)
         
-        # Get a random keyword from environment variable or use default
-        keyword = get_gif_keyword()
-        gif_url = await get_gif_from_giphy(keyword)
+        # Check if GIFs are enabled
+        if is_gif_enabled():
+            # Get a random keyword from environment variable or use default
+            keyword = get_gif_keyword()
+            gif_url = await get_gif_from_giphy(keyword)
+            
+            # Send GIF with text as caption (single message) if GIF available
+            if gif_url:
+                await update.message.reply_animation(gif_url, caption=response)
+                return
         
-        # Always send GIF with text as caption (single message) if GIF available
-        if gif_url:
-            await update.message.reply_animation(gif_url, caption=response)
-        else:
-            # Fallback to text only if no GIF available
-            await update.message.reply_text(response)
+        # Send text only if GIFs disabled or no GIF available
+        await update.message.reply_text(response)
             
     except Exception as e:
         logger.error(f"Error sending message: {e}")
@@ -181,6 +190,11 @@ async def ethan_mode_gif(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     try:
         # Get a random technical response
         response = random.choice(ETHAN_MODE_RESPONSES)
+        
+        # Check if GIFs are enabled
+        if not is_gif_enabled():
+            await update.message.reply_text(f"{response}\n\n(GIFs are currently disabled)")
+            return
         
         # Get a random keyword from environment variable or use default
         keyword = get_gif_keyword()
@@ -201,6 +215,42 @@ async def ethan_mode_gif(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             pass
 
 
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle the /help command - shows all available commands"""
+    help_text = """
+🤖 *ETHAN MODE Bot Commands*
+
+/click_to_go_crypto_ethan_mode - Activate ETHAN MODE with technical response (may include GIF if enabled)
+
+/ethan_mode_gif - Get a random GIF with technical response
+
+/help - Show this help message
+
+*Settings:*
+• GIFs can be enabled/disabled via `ENABLE_GIFS` environment variable
+• GIF keywords can be configured via `GIPHY_KEYWORDS` environment variable (comma-separated)
+"""
+    try:
+        await update.message.reply_text(help_text, parse_mode='Markdown')
+    except Exception as e:
+        logger.error(f"Error sending help: {e}")
+        # Fallback without markdown
+        help_text_plain = """
+ETHAN MODE Bot Commands:
+
+/click_to_go_crypto_ethan_mode - Activate ETHAN MODE with technical response (may include GIF if enabled)
+
+/ethan_mode_gif - Get a random GIF with technical response
+
+/help - Show this help message
+
+Settings:
+• GIFs can be enabled/disabled via ENABLE_GIFS environment variable
+• GIF keywords can be configured via GIPHY_KEYWORDS environment variable (comma-separated)
+"""
+        await update.message.reply_text(help_text_plain)
+
+
 def main() -> None:
     """Start the bot"""
     # Get bot token from environment variable
@@ -217,6 +267,7 @@ def main() -> None:
     # Register command handlers
     application.add_handler(CommandHandler("click_to_go_crypto_ethan_mode", click_to_go_crypto_ethan_mode))
     application.add_handler(CommandHandler("ethan_mode_gif", ethan_mode_gif))
+    application.add_handler(CommandHandler("help", help_command))
     
     # Start the bot
     logger.info("Bot is starting...")

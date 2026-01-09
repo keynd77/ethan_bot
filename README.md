@@ -122,6 +122,10 @@ The bot randomly chooses to send: text only, GIF only, or both.
   - Example: `brain,neural,quantum,matrix`
   - If not set, defaults to "brain"
   - The bot randomly selects one keyword from the list for each GIF request
+- `ENABLE_GIFS`: Enable or disable GIF sending (optional)
+  - Set to `true`, `1`, `yes`, or `on` to enable GIFs (default)
+  - Set to `false`, `0`, `no`, or `off` to disable GIFs
+  - When disabled, commands will only send text responses
 - `GIPHY_API_KEY`: Your Giphy API key (optional - for automatic GIF fetching)
 
 ## Notes

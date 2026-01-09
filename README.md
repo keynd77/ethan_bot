@@ -118,6 +118,10 @@ The bot randomly chooses to send: text only, GIF only, or both.
 - `GIPHY_API_KEY`: Your Giphy API key (optional - for GIF fetching)
   - Get your API key from [Giphy Developers](https://developers.giphy.com/)
   - Add this to Render as an environment variable
+- `GIPHY_KEYWORDS`: Comma-separated list of keywords for GIF searches (optional)
+  - Example: `brain,neural,quantum,matrix`
+  - If not set, defaults to "brain"
+  - The bot randomly selects one keyword from the list for each GIF request
 - `GIPHY_API_KEY`: Your Giphy API key (optional - for automatic GIF fetching)
 
 ## Notes

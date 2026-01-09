@@ -75,6 +75,19 @@ GIPHY_SEARCH_TERMS = [
 ]
 
 
+def get_gif_keyword() -> str:
+    """Get a random GIF keyword from environment variable or default to 'brain'"""
+    # Get keywords from environment variable (comma-separated)
+    keywords_env = os.getenv('GIPHY_KEYWORDS', '').strip()
+    
+    if keywords_env:
+        # Parse comma-separated list and clean up
+        keywords = [k.strip() for k in keywords_env.split(',') if k.strip()]
+        if keywords:
+            return random.choice(keywords)
+    
+    # Default fallback
+    return "brain"
 
 
 def convert_giphy_url_to_direct(url: str) -> str:
@@ -144,8 +157,9 @@ async def click_to_go_crypto_ethan_mode(update: Update, context: ContextTypes.DE
     try:
         response = random.choice(ETHAN_MODE_RESPONSES)
         
-        # Fetch a GIF with "brain" keyword
-        gif_url = await get_gif_from_giphy("brain")
+        # Get a random keyword from environment variable or use default
+        keyword = get_gif_keyword()
+        gif_url = await get_gif_from_giphy(keyword)
         
         # Always send GIF with text as caption (single message) if GIF available
         if gif_url:
@@ -163,13 +177,14 @@ async def click_to_go_crypto_ethan_mode(update: Update, context: ContextTypes.DE
 
 
 async def ethan_mode_gif(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle the /ethan_mode_gif command - sends a random brain GIF with text"""
+    """Handle the /ethan_mode_gif command - sends a random GIF with text"""
     try:
         # Get a random technical response
         response = random.choice(ETHAN_MODE_RESPONSES)
         
-        # Fetch a GIF with "brain" keyword
-        gif_url = await get_gif_from_giphy("brain")
+        # Get a random keyword from environment variable or use default
+        keyword = get_gif_keyword()
+        gif_url = await get_gif_from_giphy(keyword)
         
         if gif_url:
             # Send GIF with text as caption (single message)

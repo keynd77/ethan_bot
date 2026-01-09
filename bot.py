@@ -16,6 +16,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Store group settings (chat_id -> settings dict)
+# Format: {chat_id: {'gifs_enabled': True/False}}
+group_settings = {}
+
 # Technical/tek responses
 ETHAN_MODE_RESPONSES = [
     "Digitalising complete. ETHAN MODE active.",
@@ -75,10 +79,22 @@ GIPHY_SEARCH_TERMS = [
 ]
 
 
-def is_gif_enabled() -> bool:
-    """Check if GIFs are enabled via environment variable"""
+def is_gif_enabled(chat_id: int = None) -> bool:
+    """Check if GIFs are enabled for a specific chat (group) or globally"""
+    # First check group-specific setting
+    if chat_id is not None and chat_id in group_settings:
+        return group_settings[chat_id].get('gifs_enabled', True)
+    
+    # Fall back to environment variable
     gif_setting = os.getenv('ENABLE_GIFS', 'true').strip().lower()
     return gif_setting in ('true', '1', 'yes', 'on')
+
+
+def set_gif_enabled(chat_id: int, enabled: bool) -> None:
+    """Set GIF enabled status for a specific chat (group)"""
+    if chat_id not in group_settings:
+        group_settings[chat_id] = {}
+    group_settings[chat_id]['gifs_enabled'] = enabled
 
 
 def get_gif_keyword() -> str:
@@ -162,9 +178,10 @@ async def click_to_go_crypto_ethan_mode(update: Update, context: ContextTypes.DE
     """Handle the /click_to_go_crypto_ethan_mode command"""
     try:
         response = random.choice(ETHAN_MODE_RESPONSES)
+        chat_id = update.message.chat.id
         
-        # Check if GIFs are enabled
-        if is_gif_enabled():
+        # Check if GIFs are enabled for this chat
+        if is_gif_enabled(chat_id):
             # Get a random keyword from environment variable or use default
             keyword = get_gif_keyword()
             gif_url = await get_gif_from_giphy(keyword)
@@ -190,10 +207,11 @@ async def ethan_mode_gif(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     try:
         # Get a random technical response
         response = random.choice(ETHAN_MODE_RESPONSES)
+        chat_id = update.message.chat.id
         
-        # Check if GIFs are enabled
-        if not is_gif_enabled():
-            await update.message.reply_text(f"{response}\n\n(GIFs are currently disabled)")
+        # Check if GIFs are enabled for this chat
+        if not is_gif_enabled(chat_id):
+            await update.message.reply_text(f"{response}\n\n(GIFs are currently disabled for this group)")
             return
         
         # Get a random keyword from environment variable or use default
@@ -215,20 +233,72 @@ async def ethan_mode_gif(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             pass
 
 
+async def gif_on(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Enable GIFs for this group"""
+    try:
+        chat_id = update.message.chat.id
+        set_gif_enabled(chat_id, True)
+        
+        chat_type = "group" if update.message.chat.type in ['group', 'supergroup'] else "chat"
+        await update.message.reply_text(f"GIFs enabled for this {chat_type}.")
+    except Exception as e:
+        logger.error(f"Error enabling GIFs: {e}")
+        await update.message.reply_text("Error enabling GIFs.")
+
+
+async def gif_off(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Disable GIFs for this group"""
+    try:
+        chat_id = update.message.chat.id
+        set_gif_enabled(chat_id, False)
+        
+        chat_type = "group" if update.message.chat.type in ['group', 'supergroup'] else "chat"
+        await update.message.reply_text(f"GIFs disabled for this {chat_type}.")
+    except Exception as e:
+        logger.error(f"Error disabling GIFs: {e}")
+        await update.message.reply_text("Error disabling GIFs.")
+
+
+async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Show current settings for this group"""
+    try:
+        chat_id = update.message.chat.id
+        gifs_enabled = is_gif_enabled(chat_id)
+        
+        chat_type = "group" if update.message.chat.type in ['group', 'supergroup'] else "chat"
+        status = "enabled" if gifs_enabled else "disabled"
+        
+        settings_text = f"""
+*Settings for this {chat_type}:*
+
+GIFs: {status}
+
+Use /gif_on or /gif_off to toggle GIFs for this {chat_type}.
+"""
+        await update.message.reply_text(settings_text, parse_mode='Markdown')
+    except Exception as e:
+        logger.error(f"Error showing settings: {e}")
+        await update.message.reply_text("Error retrieving settings.")
+
+
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Handle the /help command - shows all available commands"""
     help_text = """
 🤖 *ETHAN MODE Bot Commands*
 
+*Main Commands:*
 /click_to_go_crypto_ethan_mode - Activate ETHAN MODE with technical response (may include GIF if enabled)
 
 /ethan_mode_gif - Get a random GIF with technical response
 
+*Settings Commands:*
+/gif_on - Enable GIFs for this group
+/gif_off - Disable GIFs for this group
+/settings - Show current settings for this group
+
 /help - Show this help message
 
-*Settings:*
-• GIFs can be enabled/disabled via `ENABLE_GIFS` environment variable
-• GIF keywords can be configured via `GIPHY_KEYWORDS` environment variable (comma-separated)
+*Note:* Settings are per-group. Each group can have its own GIF settings.
 """
     try:
         await update.message.reply_text(help_text, parse_mode='Markdown')
@@ -238,15 +308,19 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         help_text_plain = """
 ETHAN MODE Bot Commands:
 
+Main Commands:
 /click_to_go_crypto_ethan_mode - Activate ETHAN MODE with technical response (may include GIF if enabled)
 
 /ethan_mode_gif - Get a random GIF with technical response
 
+Settings Commands:
+/gif_on - Enable GIFs for this group
+/gif_off - Disable GIFs for this group
+/settings - Show current settings for this group
+
 /help - Show this help message
 
-Settings:
-• GIFs can be enabled/disabled via ENABLE_GIFS environment variable
-• GIF keywords can be configured via GIPHY_KEYWORDS environment variable (comma-separated)
+Note: Settings are per-group. Each group can have its own GIF settings.
 """
         await update.message.reply_text(help_text_plain)
 
@@ -268,6 +342,9 @@ def main() -> None:
     application.add_handler(CommandHandler("click_to_go_crypto_ethan_mode", click_to_go_crypto_ethan_mode))
     application.add_handler(CommandHandler("ethan_mode_gif", ethan_mode_gif))
     application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("gif_on", gif_on))
+    application.add_handler(CommandHandler("gif_off", gif_off))
+    application.add_handler(CommandHandler("settings", settings_command))
     
     # Start the bot
     logger.info("Bot is starting...")

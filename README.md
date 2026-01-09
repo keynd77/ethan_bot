@@ -1,135 +1,30 @@
 # Ethan Bot
 
-A sassy, sarcastic Telegram bot with AI that activates ETHAN MODE when you send the command `/click_to_go_crypto_ethan_mode`. Features crypto/psyop terminology, sarcasm, and AI-powered responses!
+A Telegram bot that activates ETHAN MODE with technical/tek terminology and GIF support.
 
-## Quick Setup
+## Setup
 
-1. **Get a Telegram Bot Token:**
-   - Open Telegram and search for [@BotFather](https://t.me/botfather)
-   - Send `/newbot` and follow the instructions
-   - Copy the token you receive
-   - **Important:** Enable group access by sending `/setjoingroups` to BotFather, then select your bot and enable "Allow Groups"
+1. Get a Telegram bot token from [@BotFather](https://t.me/botfather)
+2. Install dependencies: `pip install -r requirements.txt`
+3. Set environment variable: `export TELEGRAM_BOT_TOKEN='your_token_here'`
+4. Run: `python bot.py`
 
-2. **Enable Group Access:**
-   - In BotFather, send `/mybots`
-   - Select your bot
-   - Go to "Bot Settings" → "Allow Groups?" → Enable it
+## Commands
 
-## Local Development
-
-1. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. **Set your bot token:**
-   ```bash
-   export TELEGRAM_BOT_TOKEN='your_token_here'
-   ```
-
-3. **Run the bot:**
-   ```bash
-   python bot.py
-   ```
-
-## Hosting (Required for Group Use)
-
-**Yes, you need to host the bot somewhere for it to work 24/7 in group chats!** Here are free hosting options:
-
-### Option 1: Railway (Recommended - Easiest)
-
-1. Go to [railway.app](https://railway.app) and sign up (free tier available)
-2. Click "New Project" → "Deploy from GitHub repo"
-3. Connect your GitHub account and select this repository
-4. Add environment variable:
-   - Variable: `TELEGRAM_BOT_TOKEN` → Your bot token from BotFather
-5. Railway will automatically deploy and keep your bot running!
-
-### Option 2: Render
-
-1. Go to [render.com](https://render.com) and sign up (free tier available)
-2. Click "New" → "Background Worker"
-3. Connect your GitHub repository
-4. Settings:
-   - **Build Command:** `pip install -r requirements.txt`
-   - **Start Command:** `python bot.py`
-   - **Environment Variable:** 
-     - `TELEGRAM_BOT_TOKEN` → Your bot token
-5. Click "Create Background Worker" - your bot will be live!
-
-### Option 3: Fly.io
-
-1. Install Fly CLI: `curl -L https://fly.io/install.sh | sh`
-2. Sign up at [fly.io](https://fly.io) (free tier available)
-3. Run:
-   ```bash
-   fly launch
-   fly secrets set TELEGRAM_BOT_TOKEN=your_token_here
-   ```
-4. Your bot will be deployed and running!
-
-## Adding Bot to a Group
-
-Once your bot is hosted and running:
-
-1. Open your Telegram group
-2. Tap the group name at the top
-3. Go to "Add Members"
-4. Search for your bot by its username (the one you set with BotFather)
-5. Add the bot to the group
-6. Anyone in the group can now use `/click_to_go_crypto_ethan_mode`!
-
-## Usage
-
-Once the bot is running (locally or hosted):
-- Send `/click_to_go_crypto_ethan_mode` to activate ETHAN MODE
-- The bot will respond with a random technical/tek message from a curated list
-- May also send a random GIF (if configured)
-- Each response uses technical terminology like "digitalising", "neural pathways", "protocol activation", etc.
-
-## Features
-
-- **30+ Technical Responses:** Randomly selects from a curated list of technical/tek activation messages
-- **Random GIFs:** Can send random GIFs along with responses (optional)
-- **Technical/Tek Terminology:** Uses terms like "digitalising", "neural pathways", "protocol activation", "system override", "quantum state", "matrix protocols", etc.
-- **No Emojis:** Clean, technical responses without emojis
-- **Simple & Fast:** No AI dependencies, instant responses
-
-## GIF Support
-
-The bot can send random GIFs with responses. You have two options:
-
-### Option 1: Custom GIF URLs (Recommended)
-Add your own GIF URLs to the `ETHAN_MODE_GIFS` list in `bot.py`. You can find GIFs from:
-- Giphy: Right-click a GIF → "Copy image address"
-- Tenor: Right-click a GIF → "Copy image address"
-- Any direct .gif URL
-
-### Option 2: Giphy API (Automatic)
-1. Get a free API key from [Giphy Developers](https://developers.giphy.com/)
-2. Add it as an environment variable: `GIPHY_API_KEY`
-3. The bot will automatically fetch random tech/cyberpunk themed GIFs
-
-The bot randomly chooses to send: text only, GIF only, or both.
+- `/click_to_go_crypto_ethan_mode` - Activate ETHAN MODE
+- `/ethan_mode_gif` - Get a random GIF with technical response
+- `/gif_on` - Enable GIFs for this group
+- `/gif_off` - Disable GIFs for this group
+- `/settings` - Show current settings
+- `/help` - Show help message
 
 ## Environment Variables
 
-- `TELEGRAM_BOT_TOKEN`: Your Telegram bot token from BotFather (required)
-- `GIPHY_API_KEY`: Your Giphy API key (optional - for GIF fetching)
-  - Get your API key from [Giphy Developers](https://developers.giphy.com/)
-  - Add this to Render as an environment variable
-- `GIPHY_KEYWORDS`: Comma-separated list of keywords for GIF searches (optional)
-  - Example: `brain,neural,quantum,matrix`
-  - If not set, defaults to "brain"
-  - The bot randomly selects one keyword from the list for each GIF request
-- `ENABLE_GIFS`: Enable or disable GIF sending (optional)
-  - Set to `true`, `1`, `yes`, or `on` to enable GIFs (default)
-  - Set to `false`, `0`, `no`, or `off` to disable GIFs
-  - When disabled, commands will only send text responses
-- `GIPHY_API_KEY`: Your Giphy API key (optional - for automatic GIF fetching)
+- `TELEGRAM_BOT_TOKEN` (required) - Your Telegram bot token
+- `GIPHY_API_KEY` (optional) - For GIF fetching
+- `GIPHY_KEYWORDS` (optional) - Comma-separated keywords (default: "brain")
+- `ENABLE_GIFS` (optional) - Enable/disable GIFs globally (default: true)
 
-## Notes
+## Hosting
 
-- The bot must be running continuously to respond to commands
-- For group use, cloud hosting is recommended
-- All hosting options above have free tiers that work perfectly for this bot
+Deploy to [Render](https://render.com), [Railway](https://railway.app), or any cloud platform that supports Python.

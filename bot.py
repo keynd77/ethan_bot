@@ -52,11 +52,17 @@ ETHAN_MODE_RESPONSES = [
 ]
 
 # GIF URLs - Add your own GIF URLs here (direct links to .gif files)
-# You can find GIFs from Giphy, Tenor, or upload your own
+# How to get GIFs from giphy.com:
+# 1. Go to https://giphy.com/ and find a GIF you like
+# 2. Click on the GIF to open it
+# 3. Right-click the GIF → "Copy image address" or "Copy image link"
+# 4. Paste the URL here (should look like: https://media.giphy.com/media/XXXXX/giphy.gif)
+# 
+# You can also use Giphy page URLs (like https://giphy.com/gifs/XXXXX) - they'll be converted automatically
 ETHAN_MODE_GIFS = [
     # Add GIF URLs here, for example:
-    # "https://media.giphy.com/media/example1.gif",
-    # "https://media.giphy.com/media/example2.gif",
+    # "https://media.giphy.com/media/example1/giphy.gif",
+    # "https://giphy.com/gifs/example2",  # Page URL - will be converted automatically
     # "https://media.tenor.com/example3.gif",
     # You can add as many as you want
 ]
@@ -69,6 +75,25 @@ GIPHY_SEARCH_TERMS = [
 ]
 
 
+
+
+def convert_giphy_url_to_direct(url: str) -> str:
+    """Convert Giphy page URL to direct GIF URL"""
+    # If it's already a direct media URL, return as is
+    if "media.giphy.com" in url and url.endswith(('.gif', '.mp4')):
+        return url
+    
+    # If it's a Giphy page URL, try to extract the ID and convert
+    # Giphy page URLs look like: https://giphy.com/gifs/XXXXX or https://giphy.com/gifs/category-XXXXX
+    if "giphy.com/gifs" in url:
+        # Extract the GIF ID (last part of the URL)
+        parts = url.rstrip('/').split('/')
+        gif_id = parts[-1].split('-')[-1]  # Get last part, handle category-XXXXX format
+        # Convert to direct URL
+        return f"https://media.giphy.com/media/{gif_id}/giphy.gif"
+    
+    # If it's already a direct URL or unknown format, return as is
+    return url
 
 
 async def get_gif_from_giphy(keyword: str) -> str:
@@ -105,7 +130,9 @@ async def get_random_gif_url() -> str:
     """Get a random GIF URL from Giphy API or fallback to list"""
     # First, try to use custom GIF list
     if ETHAN_MODE_GIFS:
-        return random.choice(ETHAN_MODE_GIFS)
+        gif_url = random.choice(ETHAN_MODE_GIFS)
+        # Convert Giphy page URLs to direct URLs if needed
+        return convert_giphy_url_to_direct(gif_url)
     
     # If no custom GIFs, try Giphy API
     search_term = random.choice(GIPHY_SEARCH_TERMS)

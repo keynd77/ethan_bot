@@ -1,6 +1,6 @@
 # Ethan Bot
 
-A Telegram bot that activates ETHAN MODE when you send the command `/click_to_go_crypto_ethan_mode`.
+A sassy, sarcastic Telegram bot with AI that activates ETHAN MODE when you send the command `/click_to_go_crypto_ethan_mode`. Features crypto/psyop terminology, sarcasm, and AI-powered responses!
 
 ## Quick Setup
 
@@ -27,7 +27,17 @@ A Telegram bot that activates ETHAN MODE when you send the command `/click_to_go
    export TELEGRAM_BOT_TOKEN='your_token_here'
    ```
 
-3. **Run the bot:**
+3. **Get OpenAI API Key (for AI features):**
+   - Go to [OpenAI Platform](https://platform.openai.com/api-keys)
+   - Sign up or log in
+   - Create a new API key
+   - Set it as an environment variable:
+   ```bash
+   export OPENAI_API_KEY='your_openai_key_here'
+   ```
+   - **Note:** The bot works without AI (uses fallback responses), but AI makes it much sassier!
+
+4. **Run the bot:**
    ```bash
    python bot.py
    ```
@@ -41,9 +51,9 @@ A Telegram bot that activates ETHAN MODE when you send the command `/click_to_go
 1. Go to [railway.app](https://railway.app) and sign up (free tier available)
 2. Click "New Project" → "Deploy from GitHub repo"
 3. Connect your GitHub account and select this repository
-4. Add environment variable:
-   - Variable: `TELEGRAM_BOT_TOKEN`
-   - Value: Your bot token from BotFather
+4. Add environment variables:
+   - Variable: `TELEGRAM_BOT_TOKEN` → Your bot token from BotFather
+   - Variable: `OPENAI_API_KEY` → Your OpenAI API key (optional but recommended)
 5. Railway will automatically deploy and keep your bot running!
 
 ### Option 2: Render
@@ -54,7 +64,9 @@ A Telegram bot that activates ETHAN MODE when you send the command `/click_to_go
 4. Settings:
    - **Build Command:** `pip install -r requirements.txt`
    - **Start Command:** `python bot.py`
-   - **Environment Variable:** Add `TELEGRAM_BOT_TOKEN` with your token
+   - **Environment Variables:** 
+     - `TELEGRAM_BOT_TOKEN` → Your bot token
+     - `OPENAI_API_KEY` → Your OpenAI API key (optional but recommended)
 5. Click "Create Background Worker" - your bot will be live!
 
 ### Option 3: Fly.io
@@ -65,6 +77,7 @@ A Telegram bot that activates ETHAN MODE when you send the command `/click_to_go
    ```bash
    fly launch
    fly secrets set TELEGRAM_BOT_TOKEN=your_token_here
+   fly secrets set OPENAI_API_KEY=your_openai_key_here
    ```
 4. Your bot will be deployed and running!
 
@@ -81,11 +94,23 @@ Once your bot is hosted and running:
 
 ## Usage
 
-Once the bot is running (locally or hosted), send `/click_to_go_crypto_ethan_mode` in any chat with the bot, and it will respond with "ETHAN MODE ACTIVATED".
+Once the bot is running (locally or hosted):
+- Send `/click_to_go_crypto_ethan_mode` to activate ETHAN MODE with a sassy AI response
+- In group chats, the bot will occasionally respond to messages with sarcastic crypto commentary (10% chance to avoid spam)
+- The bot uses crypto slang, psyop terminology, and lots of sarcasm
+
+## Features
+
+- **AI-Powered Responses:** Uses OpenAI GPT to generate sassy, sarcastic responses
+- **Crypto/Psyop Terminology:** Heavy use of terms like "rekt", "moon", "diamond hands", "narrative shift", "whales", etc.
+- **Sarcastic Personality:** The bot has an attitude and isn't afraid to show it
+- **Group Chat Integration:** Responds to messages in groups (with rate limiting)
+- **Fallback Mode:** Works without AI using pre-written sassy responses
 
 ## Environment Variables
 
 - `TELEGRAM_BOT_TOKEN`: Your Telegram bot token from BotFather (required)
+- `OPENAI_API_KEY`: Your OpenAI API key (optional - bot works without it but AI makes it better!)
 
 ## Notes
 

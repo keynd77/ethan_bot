@@ -89,13 +89,32 @@ Once the bot is running (locally or hosted):
 ## Features
 
 - **30+ Technical Responses:** Randomly selects from a curated list of technical/tek activation messages
+- **Random GIFs:** Can send random GIFs along with responses (optional)
 - **Technical/Tek Terminology:** Uses terms like "digitalising", "neural pathways", "protocol activation", "system override", "quantum state", "matrix protocols", etc.
 - **No Emojis:** Clean, technical responses without emojis
 - **Simple & Fast:** No AI dependencies, instant responses
 
+## GIF Support
+
+The bot can send random GIFs with responses. You have two options:
+
+### Option 1: Custom GIF URLs (Recommended)
+Add your own GIF URLs to the `ETHAN_MODE_GIFS` list in `bot.py`. You can find GIFs from:
+- Giphy: Right-click a GIF → "Copy image address"
+- Tenor: Right-click a GIF → "Copy image address"
+- Any direct .gif URL
+
+### Option 2: Giphy API (Automatic)
+1. Get a free API key from [Giphy Developers](https://developers.giphy.com/)
+2. Add it as an environment variable: `GIPHY_API_KEY`
+3. The bot will automatically fetch random tech/cyberpunk themed GIFs
+
+The bot randomly chooses to send: text only, GIF only, or both.
+
 ## Environment Variables
 
 - `TELEGRAM_BOT_TOKEN`: Your Telegram bot token from BotFather (required)
+- `GIPHY_API_KEY`: Your Giphy API key (optional - for automatic GIF fetching)
 
 ## Notes
 

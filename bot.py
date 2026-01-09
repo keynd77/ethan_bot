@@ -5,6 +5,7 @@ Ethan Bot - Telegram bot that activates ETHAN MODE with technical/tek terminolog
 import os
 import logging
 import random
+import aiohttp
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
@@ -50,17 +51,88 @@ ETHAN_MODE_RESPONSES = [
     "Neural processing unit active. ETHAN MODE activated.",
 ]
 
+# GIF URLs - Add your own GIF URLs here (direct links to .gif files)
+# You can find GIFs from Giphy, Tenor, or upload your own
+ETHAN_MODE_GIFS = [
+    # Add GIF URLs here, for example:
+    # "https://media.giphy.com/media/example1.gif",
+    # "https://media.giphy.com/media/example2.gif",
+    # "https://media.tenor.com/example3.gif",
+    # You can add as many as you want
+]
 
+# Giphy search terms for random GIFs (used if GIPHY_API_KEY is set)
+GIPHY_SEARCH_TERMS = [
+    "matrix", "cyberpunk", "neural network", "quantum", "digital", 
+    "hacking", "code", "binary", "tech", "futuristic", "ai", 
+    "robot", "system", "protocol", "activation"
+]
+
+
+
+
+async def get_random_gif_url() -> str:
+    """Get a random GIF URL from Giphy API or fallback to list"""
+    # First, try to use custom GIF list
+    if ETHAN_MODE_GIFS:
+        return random.choice(ETHAN_MODE_GIFS)
+    
+    # If no custom GIFs, try Giphy API
+    giphy_key = os.getenv('GIPHY_API_KEY')
+    if giphy_key:
+        try:
+            search_term = random.choice(GIPHY_SEARCH_TERMS)
+            async with aiohttp.ClientSession() as session:
+                url = f"https://api.giphy.com/v1/gifs/random"
+                params = {
+                    'api_key': giphy_key,
+                    'tag': search_term,
+                    'rating': 'g'
+                }
+                async with session.get(url, params=params) as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
+                        if 'data' in data and 'images' in data['data']:
+                            # Get the original or downsized_medium GIF
+                            gif_data = data['data']['images']
+                            gif_url = gif_data.get('original', {}).get('url') or \
+                                     gif_data.get('downsized_medium', {}).get('url')
+                            if gif_url:
+                                return gif_url
+        except Exception as e:
+            logger.error(f"Error fetching Giphy GIF: {e}")
+    
+    return None
 
 
 async def click_to_go_crypto_ethan_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Handle the /click_to_go_crypto_ethan_mode command"""
     try:
         response = random.choice(ETHAN_MODE_RESPONSES)
-        await update.message.reply_text(response)
+        
+        # Try to get a GIF
+        gif_url = await get_random_gif_url()
+        
+        # Randomly decide: text only, GIF only, or both (if GIF available)
+        if gif_url:
+            send_option = random.choice(['text_only', 'gif_only', 'both'])
+        else:
+            send_option = 'text_only'
+        
+        if send_option == 'text_only':
+            await update.message.reply_text(response)
+        elif send_option == 'gif_only':
+            await update.message.reply_animation(gif_url, caption=response)
+        else:  # both
+            await update.message.reply_animation(gif_url)
+            await update.message.reply_text(response)
+            
     except Exception as e:
         logger.error(f"Error sending message: {e}")
-        await update.message.reply_text("ETHAN MODE ACTIVATED")
+        try:
+            await update.message.reply_text("ETHAN MODE ACTIVATED")
+        except:
+            pass
 
 
 def main() -> None:

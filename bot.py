@@ -147,18 +147,11 @@ async def click_to_go_crypto_ethan_mode(update: Update, context: ContextTypes.DE
         # Try to get a GIF
         gif_url = await get_random_gif_url()
         
-        # Randomly decide: text only, GIF only, or both (if GIF available)
+        # Always send GIF with text as caption (single message) if GIF available
         if gif_url:
-            send_option = random.choice(['text_only', 'gif_only', 'both'])
-        else:
-            send_option = 'text_only'
-        
-        if send_option == 'text_only':
-            await update.message.reply_text(response)
-        elif send_option == 'gif_only':
             await update.message.reply_animation(gif_url, caption=response)
-        else:  # both
-            await update.message.reply_animation(gif_url)
+        else:
+            # Fallback to text only if no GIF available
             await update.message.reply_text(response)
             
     except Exception as e:
@@ -170,21 +163,25 @@ async def click_to_go_crypto_ethan_mode(update: Update, context: ContextTypes.DE
 
 
 async def ethan_mode_gif(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle the /ethan_mode_gif command - sends a random brain GIF"""
+    """Handle the /ethan_mode_gif command - sends a random brain GIF with text"""
     try:
+        # Get a random technical response
+        response = random.choice(ETHAN_MODE_RESPONSES)
+        
         # Fetch a GIF with "brain" keyword
         gif_url = await get_gif_from_giphy("brain")
         
         if gif_url:
-            await update.message.reply_animation(gif_url)
+            # Send GIF with text as caption (single message)
+            await update.message.reply_animation(gif_url, caption=response)
         else:
             # Fallback if Giphy API is not available
-            await update.message.reply_text("ETHAN MODE GIF: Giphy API key not configured or error fetching GIF")
+            await update.message.reply_text(response)
             
     except Exception as e:
         logger.error(f"Error sending GIF: {e}")
         try:
-            await update.message.reply_text("ETHAN MODE GIF: Error fetching GIF")
+            await update.message.reply_text("ETHAN MODE ACTIVATED")
         except:
             pass
 

@@ -1,0 +1,9 @@
+app = "ethan-bot"
+primary_region = "iad"
+
+[build]
+
+[env]
+  TELEGRAM_BOT_TOKEN = ""
+
+# This is a worker process, no HTTP services needed

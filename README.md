@@ -84,6 +84,7 @@ Once your bot is hosted and running:
 Once the bot is running (locally or hosted):
 - Send `/click_to_go_crypto_ethan_mode` to activate ETHAN MODE
 - The bot will respond with a random technical/tek message from a curated list
+- May also send a random GIF (if configured)
 - Each response uses technical terminology like "digitalising", "neural pathways", "protocol activation", etc.
 
 ## Features

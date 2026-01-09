@@ -27,17 +27,7 @@ A sassy, sarcastic Telegram bot with AI that activates ETHAN MODE when you send 
    export TELEGRAM_BOT_TOKEN='your_token_here'
    ```
 
-3. **Get OpenAI API Key (for AI features):**
-   - Go to [OpenAI Platform](https://platform.openai.com/api-keys)
-   - Sign up or log in
-   - Create a new API key
-   - Set it as an environment variable:
-   ```bash
-   export OPENAI_API_KEY='your_openai_key_here'
-   ```
-   - **Note:** The bot works without AI (uses fallback responses), but AI makes it much sassier!
-
-4. **Run the bot:**
+3. **Run the bot:**
    ```bash
    python bot.py
    ```
@@ -51,9 +41,8 @@ A sassy, sarcastic Telegram bot with AI that activates ETHAN MODE when you send 
 1. Go to [railway.app](https://railway.app) and sign up (free tier available)
 2. Click "New Project" → "Deploy from GitHub repo"
 3. Connect your GitHub account and select this repository
-4. Add environment variables:
+4. Add environment variable:
    - Variable: `TELEGRAM_BOT_TOKEN` → Your bot token from BotFather
-   - Variable: `OPENAI_API_KEY` → Your OpenAI API key (optional but recommended)
 5. Railway will automatically deploy and keep your bot running!
 
 ### Option 2: Render
@@ -64,9 +53,8 @@ A sassy, sarcastic Telegram bot with AI that activates ETHAN MODE when you send 
 4. Settings:
    - **Build Command:** `pip install -r requirements.txt`
    - **Start Command:** `python bot.py`
-   - **Environment Variables:** 
+   - **Environment Variable:** 
      - `TELEGRAM_BOT_TOKEN` → Your bot token
-     - `OPENAI_API_KEY` → Your OpenAI API key (optional but recommended)
 5. Click "Create Background Worker" - your bot will be live!
 
 ### Option 3: Fly.io
@@ -77,7 +65,6 @@ A sassy, sarcastic Telegram bot with AI that activates ETHAN MODE when you send 
    ```bash
    fly launch
    fly secrets set TELEGRAM_BOT_TOKEN=your_token_here
-   fly secrets set OPENAI_API_KEY=your_openai_key_here
    ```
 4. Your bot will be deployed and running!
 
@@ -95,23 +82,20 @@ Once your bot is hosted and running:
 ## Usage
 
 Once the bot is running (locally or hosted):
-- Send `/click_to_go_crypto_ethan_mode` to activate ETHAN MODE with a sassy AI response
-- In group chats, the bot will occasionally respond to messages with sarcastic technical commentary (10% chance to avoid spam)
-- The bot uses technical/tek terminology, cyberpunk language, and lots of sarcasm
+- Send `/click_to_go_crypto_ethan_mode` to activate ETHAN MODE
+- The bot will respond with a random technical/tek message from a curated list
+- Each response uses technical terminology like "digitalising", "neural pathways", "protocol activation", etc.
 
 ## Features
 
-- **AI-Powered Responses:** Uses OpenAI GPT to generate sassy, sarcastic technical responses
-- **Technical/Tek Terminology:** Heavy use of terms like "digitalising", "neural pathways", "protocol activation", "system override", "quantum state", "matrix protocols", etc.
-- **Sarcastic Personality:** The bot has an attitude and isn't afraid to show it
-- **Group Chat Integration:** Responds to messages in groups (with rate limiting)
-- **Fallback Mode:** Works without AI using pre-written technical responses
+- **30+ Technical Responses:** Randomly selects from a curated list of technical/tek activation messages
+- **Technical/Tek Terminology:** Uses terms like "digitalising", "neural pathways", "protocol activation", "system override", "quantum state", "matrix protocols", etc.
 - **No Emojis:** Clean, technical responses without emojis
+- **Simple & Fast:** No AI dependencies, instant responses
 
 ## Environment Variables
 
 - `TELEGRAM_BOT_TOKEN`: Your Telegram bot token from BotFather (required)
-- `OPENAI_API_KEY`: Your OpenAI API key (optional - bot works without it but AI makes it better!)
 
 ## Notes
 

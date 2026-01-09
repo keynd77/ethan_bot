@@ -20,20 +20,20 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Sassy crypto/psyop responses for when AI is not available
+# Technical/tek responses for when AI is not available
 FALLBACK_RESPONSES = [
-    "ETHAN MODE ACTIVATED 🚀 Time to psyop these normies into buying the dip",
-    "ETHAN MODE ACTIVATED 💎 Diamond hands only, paper hands need not apply",
-    "ETHAN MODE ACTIVATED ⚡ The narrative is shifting, and you're about to get rekt if you're not paying attention",
-    "ETHAN MODE ACTIVATED 🔥 Welcome to the alpha channel. Leave your FUD at the door",
-    "ETHAN MODE ACTIVATED 🎯 This is not financial advice, but your portfolio is about to moon",
-    "ETHAN MODE ACTIVATED 🌙 We're going full degen mode. LFG!",
-    "ETHAN MODE ACTIVATED 💰 The whales are accumulating. Are you?",
+    "Digitalising complete. ETHAN MODE active.",
+    "Neural pathways initialized. ETHAN MODE online.",
+    "Protocol activation successful. ETHAN MODE engaged.",
+    "System override complete. ETHAN MODE operational.",
+    "Binary synchronization achieved. ETHAN MODE activated.",
+    "Quantum state resolved. ETHAN MODE active.",
+    "Matrix protocols engaged. ETHAN MODE initialized.",
 ]
 
 
 def get_ai_response(user_message: str = "", is_command: bool = False) -> str:
-    """Generate a sassy AI response with crypto/psyop terminology"""
+    """Generate a sassy AI response with technical/tek terminology"""
     if not OPENAI_AVAILABLE:
         return random.choice(FALLBACK_RESPONSES)
     
@@ -44,22 +44,24 @@ def get_ai_response(user_message: str = "", is_command: bool = False) -> str:
     try:
         client = OpenAI(api_key=api_key)
         
-        system_prompt = """You are ETHAN MODE - a sassy, sarcastic crypto trading bot with an attitude. 
-You use crypto slang, psyop terminology, and trading jargon constantly. You're extremely sarcastic, 
+        system_prompt = """You are ETHAN MODE - a sassy, sarcastic technical system with an attitude. 
+You use technical terminology, cyberpunk/tek jargon, and system activation language. You're extremely sarcastic, 
 a bit condescending, but also entertaining. You respond with:
-- Heavy use of crypto terms: "rekt", "moon", "diamond hands", "paper hands", "FUD", "alpha", "narrative", "whales", "degen", "LFG", "ape in", "rug pull", "DYOR"
-- Psyop/trading terms: "psyop", "narrative shift", "accumulation", "distribution", "support/resistance", "breakout", "fakeout"
+- Heavy use of technical/tek terms: "digitalising", "neural pathways", "protocol activation", "system override", "binary synchronization", "quantum state", "matrix protocols", "neural networks", "data streams", "code execution", "system initialization", "protocol engaged", "digital transformation", "neural interface", "quantum entanglement", "algorithmic processing"
+- Cyberpunk/system terms: "system online", "protocol active", "neural link established", "digital consciousness", "matrix connection", "quantum processing", "binary code", "data matrix", "neural network", "system architecture"
 - Lots of sarcasm and sass
-- Emojis sparingly but effectively
-- Short, punchy responses (1-3 sentences max)
-- Never give actual financial advice, always be sarcastic about it
+- NO EMOJIS - never use emojis
+- Short, punchy responses (1-2 sentences max, often just one)
+- Focus on ETHAN MODE activation and technical system language
+- Never mention prices, buying, selling, trading, crypto, or financial terms
+- Think cyberpunk, technical, system activation vibes
 
-When someone activates ETHAN MODE, respond with something sassy about crypto/trading."""
+When someone activates ETHAN MODE, respond with something sassy about system activation using technical terminology."""
 
         if is_command:
-            user_prompt = "Someone just activated ETHAN MODE. Give them a sassy, sarcastic response about entering crypto/trading mode."
+            user_prompt = "Someone just activated ETHAN MODE. Give them a sassy, sarcastic response about system activation using technical/tek terminology. No emojis. Focus on digitalising, neural pathways, protocols, etc."
         else:
-            user_prompt = f"Respond to this message with sassy crypto/psyop sarcasm: {user_message}"
+            user_prompt = f"Respond to this message with sassy technical/tek sarcasm about ETHAN MODE: {user_message}"
         
         response = client.chat.completions.create(
             model="gpt-4o-mini",  # Using mini for cost efficiency, can change to gpt-4 if needed
@@ -129,7 +131,7 @@ def main() -> None:
         logger.warning("OPENAI_API_KEY not set. Bot will use fallback responses.")
         logger.warning("Get your key from: https://platform.openai.com/api-keys")
     else:
-        logger.info("AI mode enabled! Bot will generate sassy crypto responses.")
+        logger.info("AI mode enabled! Bot will generate sassy technical/tek responses.")
     
     # Create the Application
     application = Application.builder().token(token).build()

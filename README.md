@@ -96,16 +96,17 @@ Once your bot is hosted and running:
 
 Once the bot is running (locally or hosted):
 - Send `/click_to_go_crypto_ethan_mode` to activate ETHAN MODE with a sassy AI response
-- In group chats, the bot will occasionally respond to messages with sarcastic crypto commentary (10% chance to avoid spam)
-- The bot uses crypto slang, psyop terminology, and lots of sarcasm
+- In group chats, the bot will occasionally respond to messages with sarcastic technical commentary (10% chance to avoid spam)
+- The bot uses technical/tek terminology, cyberpunk language, and lots of sarcasm
 
 ## Features
 
-- **AI-Powered Responses:** Uses OpenAI GPT to generate sassy, sarcastic responses
-- **Crypto/Psyop Terminology:** Heavy use of terms like "rekt", "moon", "diamond hands", "narrative shift", "whales", etc.
+- **AI-Powered Responses:** Uses OpenAI GPT to generate sassy, sarcastic technical responses
+- **Technical/Tek Terminology:** Heavy use of terms like "digitalising", "neural pathways", "protocol activation", "system override", "quantum state", "matrix protocols", etc.
 - **Sarcastic Personality:** The bot has an attitude and isn't afraid to show it
 - **Group Chat Integration:** Responds to messages in groups (with rate limiting)
-- **Fallback Mode:** Works without AI using pre-written sassy responses
+- **Fallback Mode:** Works without AI using pre-written technical responses
+- **No Emojis:** Clean, technical responses without emojis
 
 ## Environment Variables
 

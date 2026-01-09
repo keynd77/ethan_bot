@@ -144,8 +144,8 @@ async def click_to_go_crypto_ethan_mode(update: Update, context: ContextTypes.DE
     try:
         response = random.choice(ETHAN_MODE_RESPONSES)
         
-        # Try to get a GIF
-        gif_url = await get_random_gif_url()
+        # Fetch a GIF with "brain" keyword
+        gif_url = await get_gif_from_giphy("brain")
         
         # Always send GIF with text as caption (single message) if GIF available
         if gif_url:

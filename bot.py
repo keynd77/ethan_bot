@@ -169,8 +169,8 @@ async def click_to_go_crypto_ethan_mode(update: Update, context: ContextTypes.DE
             pass
 
 
-async def click_to_go_crypto_ethan_mode_gif(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle the /click_to_go_crypto_ethan_mode_gif command - sends a random brain GIF"""
+async def ethan_mode_gif(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle the /ethan_mode_gif command - sends a random brain GIF"""
     try:
         # Fetch a GIF with "brain" keyword
         gif_url = await get_gif_from_giphy("brain")
@@ -204,7 +204,7 @@ def main() -> None:
     
     # Register command handlers
     application.add_handler(CommandHandler("click_to_go_crypto_ethan_mode", click_to_go_crypto_ethan_mode))
-    application.add_handler(CommandHandler("click_to_go_crypto_ethan_mode_gif", click_to_go_crypto_ethan_mode_gif))
+    application.add_handler(CommandHandler("ethan_mode_gif", ethan_mode_gif))
     
     # Start the bot
     logger.info("Bot is starting...")

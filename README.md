@@ -115,6 +115,9 @@ The bot randomly chooses to send: text only, GIF only, or both.
 ## Environment Variables
 
 - `TELEGRAM_BOT_TOKEN`: Your Telegram bot token from BotFather (required)
+- `GIPHY_API_KEY`: Your Giphy API key (optional - for GIF fetching)
+  - Get your API key from [Giphy Developers](https://developers.giphy.com/)
+  - Add this to Render as an environment variable
 - `GIPHY_API_KEY`: Your Giphy API key (optional - for automatic GIF fetching)
 
 ## Notes

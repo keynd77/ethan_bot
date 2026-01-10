@@ -11,12 +11,12 @@ A Telegram bot that activates ETHAN MODE with technical/tek terminology and GIF 
 
 ## Commands
 
-- `/click_to_go_crypto_ethan_mode` - Activate ETHAN MODE
+- `/ethan_mode_activate` - Activate ETHAN MODE
 - `/ethan_mode_gif` - Get a random GIF with technical response
-- `/gif_on` - Enable GIFs for this group
-- `/gif_off` - Disable GIFs for this group
-- `/settings` - Show current settings
-- `/help` - Show help message
+- `/ethan_mode_gif_on` - Enable GIFs for this group
+- `/ethan_mode_gif_off` - Disable GIFs for this group
+- `/ethan_mode_settings` - Show current settings
+- `/ethan_mode_help` - Show help message
 
 ## Environment Variables
 

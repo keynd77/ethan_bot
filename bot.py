@@ -273,7 +273,7 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 
 GIFs: {status}
 
-Use /gif_on or /gif_off to toggle GIFs for this {chat_type}.
+Use /ethan_mode_gif_on or /ethan_mode_gif_off to toggle GIFs for this {chat_type}.
 """
         await update.message.reply_text(settings_text, parse_mode='Markdown')
     except Exception as e:
@@ -287,16 +287,16 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 🤖 *ETHAN MODE Bot Commands*
 
 *Main Commands:*
-/click_to_go_crypto_ethan_mode - Activate ETHAN MODE with technical response (may include GIF if enabled)
+/ethan_mode_activate - Activate ETHAN MODE with technical response (may include GIF if enabled)
 
 /ethan_mode_gif - Get a random GIF with technical response
 
 *Settings Commands:*
-/gif_on - Enable GIFs for this group
-/gif_off - Disable GIFs for this group
-/settings - Show current settings for this group
+/ethan_mode_gif_on - Enable GIFs for this group
+/ethan_mode_gif_off - Disable GIFs for this group
+/ethan_mode_settings - Show current settings for this group
 
-/help - Show this help message
+/ethan_mode_help - Show this help message
 
 *Note:* Settings are per-group. Each group can have its own GIF settings.
 """
@@ -309,16 +309,16 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 ETHAN MODE Bot Commands:
 
 Main Commands:
-/click_to_go_crypto_ethan_mode - Activate ETHAN MODE with technical response (may include GIF if enabled)
+/ethan_mode_activate - Activate ETHAN MODE with technical response (may include GIF if enabled)
 
 /ethan_mode_gif - Get a random GIF with technical response
 
 Settings Commands:
-/gif_on - Enable GIFs for this group
-/gif_off - Disable GIFs for this group
-/settings - Show current settings for this group
+/ethan_mode_gif_on - Enable GIFs for this group
+/ethan_mode_gif_off - Disable GIFs for this group
+/ethan_mode_settings - Show current settings for this group
 
-/help - Show this help message
+/ethan_mode_help - Show this help message
 
 Note: Settings are per-group. Each group can have its own GIF settings.
 """
@@ -338,17 +338,17 @@ def main() -> None:
     # Create the Application
     application = Application.builder().token(token).build()
     
-    # Register command handlers
-    application.add_handler(CommandHandler("click_to_go_crypto_ethan_mode", click_to_go_crypto_ethan_mode))
+    # Register command handlers (all prefixed with ethan_mode_ to avoid conflicts)
+    application.add_handler(CommandHandler("ethan_mode_activate", click_to_go_crypto_ethan_mode))
     application.add_handler(CommandHandler("ethan_mode_gif", ethan_mode_gif))
-    application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CommandHandler("gif_on", gif_on))
-    application.add_handler(CommandHandler("gif_off", gif_off))
-    application.add_handler(CommandHandler("settings", settings_command))
+    application.add_handler(CommandHandler("ethan_mode_help", help_command))
+    application.add_handler(CommandHandler("ethan_mode_gif_on", gif_on))
+    application.add_handler(CommandHandler("ethan_mode_gif_off", gif_off))
+    application.add_handler(CommandHandler("ethan_mode_settings", settings_command))
     
     # Start the bot
     logger.info("Bot is starting...")
-    logger.info("Bot is ready! Add it to your group and use /click_to_go_crypto_ethan_mode")
+    logger.info("Bot is ready! Add it to your group and use /ethan_mode_activate")
     try:
         application.run_polling(allowed_updates=Update.ALL_TYPES)
     except KeyboardInterrupt:
